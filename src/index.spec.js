@@ -6,7 +6,7 @@ import isGit from './index'
 test(`should work with cwd`, (done) => {
   const current = process.cwd()
   console.log(`current`, current)
-  isGit(current).fork(done, (data) => {
+  isGit(current).fork(t.falsy, (data) => {
     t.truthy(data)
     done()
   })
@@ -14,7 +14,7 @@ test(`should work with cwd`, (done) => {
 
 test(`should fail when given /`, (done) => {
   const current = `/`
-  isGit(current).fork(done, (data) => {
+  isGit(current).fork(t.falsy, (data) => {
     t.falsy(data)
     done()
   })
@@ -24,5 +24,5 @@ test(`should barf with no input`, (done) => {
   isGit().fork((e) => {
     t.is(e.message, `Expected to be given string to check as filepath.`)
     done()
-  }, done)
+  }, t.falsy)
 })
