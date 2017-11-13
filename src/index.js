@@ -19,16 +19,8 @@ import Future from 'fluture'
 // import {trace} from 'xtrace'
 
 const checkPathExists = Future.encaseP(pathExists)
-const parser = (cwd) => new Future(
-  (reject, resolve) => parseGitConfig(
-    cwd,
-    (err, config) => (
-      err ?
-        reject(err) :
-        resolve(config)
-    )
-  )
-)
+const parser = Future.encaseN(parseGitConfig)
+
 // const parser = Future.encaseN(iniparser.parse)
 
 const pop = e0(`pop`)
@@ -47,7 +39,6 @@ const forceTrailingSlash = (x) => (
 
 const parseConfig = curry(
   (path, extant) => {
-    console.log(path, extant)
     return (
       extant ?
         parser(path) :
